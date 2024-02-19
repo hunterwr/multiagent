@@ -328,61 +328,23 @@ def betterEvaluationFunction(currentGameState):
 
     DESCRIPTION: <write something here so we know what you did>
     """
-    scoreList = []
-    for action in currentGameState.getLegalPacmanActions():
-        print(action)
-        successorGameState = currentGameState.generatePacmanSuccessor(action)
-        newPos = successorGameState.getPacmanPosition()
-        currPos = currentGameState.getPacmanPosition()
-        newFood = successorGameState.getFood()
-        newGhostStates = successorGameState.getGhostStates()
-        newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
-
-        score = 0
-        ghostState = successorGameState.getGhostStates()
-        currghostDist = []
-        succghostDist = []
-        closestsuccGhost = 0
-        closestcurrGhost = 0
-        for ghost in ghostState:
-            ghostPos = ghost.getPosition()
-            succghostDist.append(util.manhattanDistance(newPos, ghostPos))
-            currghostDist.append(util.manhattanDistance(currPos, ghostPos))
-        if len(currghostDist) > 0:
-            closestsuccGhost = min(succghostDist)
-            closestcurrGhost = min(currghostDist)
-        if newScaredTimes[0] == 0:
-            if closestsuccGhost < closestcurrGhost:
-                score = score - 2
-            elif closestsuccGhost == closestcurrGhost:
-                score = score - 1
-        if newScaredTimes[0] >= 1:
-            if closestcurrGhost == 0:
-                score = score + 5
-            else:
-                score = score + 1
-
-        foodList = newFood.asList()
-        succfoodDist = []
-        currfoodDist = []
-        closestcurrFood = 0
-        closestsuccFood = 0
-        for food in foodList:
-            currfoodDist.append(util.manhattanDistance(currPos, food))
-            succfoodDist.append(util.manhattanDistance(newPos, food))
-        if len(currfoodDist) > 0:
-            closestsuccFood = min(succfoodDist)
-            closestcurrFood = min(currfoodDist)
-        if closestsuccFood < closestcurrFood:
-            score = score + 5
-        elif closestsuccFood >= closestcurrFood:
-            score = score - 1
-
-        if newPos == ghostState[0].getPosition():
-            score = score - 5
-
-        scoreList.append(score)
-    return max(scoreList)
+    currPos = currentGameState.getPacmanPosition()
+    ghostPos = currentGameState.getGhostStates()
+    ghostPos = ghostPos[0].getPosition()
+    foodList = currentGameState.getFood().asList()
+    foodDist = []
+    for food in foodList:
+        foodDist.append(util.manhattanDistance(currPos, food))
+    if len(foodDist) == 0:
+        closestFood = 1
+    else:
+        closestFood = min(foodDist)
+    ghost = util.manhattanDistance(currPos, ghostPos)
+    if ghost >= 2:
+        ghost = 5
+    if ghost == 1:
+        ghost = -5
+    return ghost + closestFood * 1 / closestFood
 
 # Abbreviation
 better = betterEvaluationFunction
