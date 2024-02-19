@@ -339,12 +339,25 @@ def betterEvaluationFunction(currentGameState):
         closestFood = 1
     else:
         closestFood = min(foodDist)
-    ghost = util.manhattanDistance(currPos, ghostPos)
-    if ghost >= 2:
-        ghost = 5
-    if ghost == 1:
-        ghost = -5
-    return ghost + closestFood * 1 / closestFood
+
+    #print(f"Closest food: {closestFood})
+    ghost_dist = util.manhattanDistance(currPos, ghostPos)
+
+
+    pacman_state = currentGameState.getPacmanState()
+    pacman_action = pacman_state.configuration.direction
+
+
+    if ghost_dist >= 7:
+        move_randomly = random.random()
+        if move_randomly <= 0.10:  # Adjust the threshold as needed
+            return 10
+        return 1 / closestFood
+
+    else:
+        # Adjust the weight based on ghost proximity
+        
+        return ghost_dist + 1 / closestFood
 
 # Abbreviation
 better = betterEvaluationFunction
