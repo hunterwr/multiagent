@@ -359,5 +359,25 @@ def betterEvaluationFunction(currentGameState):
         
         return ghost_dist + 1 / closestFood
 
+    # currPos = currentGameState.getPacmanPosition()
+    # ghostState = currentGameState.getGhostStates()
+    # ghostPos = ghostState[0].getPosition()
+    # foodList = currentGameState.getFood().asList()
+    # foodDist = []
+    # for food in foodList:
+    #     foodDist.append(util.manhattanDistance(currPos, food))
+    # if len(foodDist) == 0:
+    #     closestFood = 1
+    # else:
+    #     closestFood = min(foodDist)
+    # ghostDist = util.manhattanDistance(currPos, ghostPos)
+    # if ghostDist >= 8:
+    #     return ghostDist
+    # elif 8 > ghostDist >= 5:
+    #     return ghostDist + 0.25 / closestFood
+    # elif 5 > ghostDist >= 2:
+    #     return ghostDist + 0.5 / closestFood
+    # return ghostDist + 1 / closestFood
+
 # Abbreviation
 better = betterEvaluationFunction
